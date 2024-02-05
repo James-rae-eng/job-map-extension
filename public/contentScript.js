@@ -1,4 +1,5 @@
 /*global chrome*/
+
 function removeColorControl() {
     const styleId = "un-color-display";
     const styleContent = `
@@ -17,10 +18,12 @@ function removeColorControl() {
      newStyleElement.innerHTML = styleContent;
      document.head.appendChild(newStyleElement);
     }
-   }
+}
    
-   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'removeColorControl') {
-     removeColorControl();
+        removeColorControl();
     }
+    // The line below sends the info back to the react app
+    sendResponse("working");
 });
