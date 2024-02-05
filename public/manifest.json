@@ -1,12 +1,19 @@
 {
     "manifest_version": 3,
-    "name": "Job-map-extnension",
+    "name": "Job-map-extension",
     "version": "1.0.0",
     "action": { 
         "default_popup": "index.html",
         "default_title": "Open"
     },
+    "content_scripts": [
+        {
+          "matches": ["https://www.totaljobs.com/jobs/*"],
+          "js": ["contentScript.js"] 
+        }
+    ],
     "permissions": [
-        "scripting"
+        "activeTab",
+        "tabs"
     ]
   }
