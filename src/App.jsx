@@ -13,7 +13,7 @@ export default function App() {
       if (tab && tab.id !== undefined) {
         // Below sendMessage sends an action (e.g. execute this function) in the contentscript
         chrome.tabs.sendMessage(tab.id, {
-          action: 'removeColorControl',
+          action: 'getDomElement',
         }, function(response) {
           //This is the response from the content script:
           setPageInfo(response);
@@ -25,7 +25,7 @@ export default function App() {
   return (
     <section>
       <h1>Hello</h1>
-      <button onClick={getInfo}>Toggle colour</button>
+      <button onClick={getInfo}>Get dom elements</button>
       <h2>{pageInfo}</h2>
     </section>
   )

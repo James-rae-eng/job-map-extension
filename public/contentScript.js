@@ -1,29 +1,17 @@
 /*global chrome*/
 
-function removeColorControl() {
-    const styleId = "un-color-display";
-    const styleContent = `
-           html {
-             filter: grayscale(1)!important;
-           }
-         `;
-   
-    const styleElement = document.getElementById(styleId);
-   
-    if (styleElement) {
-     document.head.removeChild(styleElement);
-    } else {
-     const newStyleElement = document.createElement("style");
-     newStyleElement.id = styleId;
-     newStyleElement.innerHTML = styleContent;
-     document.head.appendChild(newStyleElement);
-    }
+function getDomElement() {
+  
+    const nodes = document.querySelectorAll('[data-genesis-element="CARD_GROUP_CONTAINER"]');
+    let list = [].slice.call(nodes);
+    let content = list.map(function(e) {return e.innerText;}); 
+    return content;
 }
    
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'removeColorControl') {
-        removeColorControl();
+    if (request.action === 'getDomElement') {
+        let result = getDomElement();
+        // The line below sends the info back to the react app
+        sendResponse(result);
     }
-    // The line below sends the info back to the react app
-    sendResponse("working");
 });
