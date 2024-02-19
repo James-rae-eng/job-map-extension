@@ -5,16 +5,14 @@ function getDomElement() {
     const group = document.querySelector('[data-genesis-element="CARD_GROUP_CONTAINER"]');   
     const nodes = group.querySelectorAll('[data-genesis-element="CARD_CONTENT"]');
 
-    // Below block works to just get the text fro the job card items
-    //let list = [].slice.call(nodes);
-    //let content = list.map(function(e) {return e.innerText;}); 
-    //return content;
-
     // main array to push to
     let mainArray = [];
 
-    for (let i=0; i < nodes.length; i+1) {
-        let node = nodes[i];
+    // Get the info we want out of each job card
+    nodes.forEach((e, index) => {
+        // only run on every 3rd object (to ignore the description blocks after the main title info)
+        if(index % 3 == 0) {
+          let node = e;
         console.log(node);
         //For each item in nodes, create temp array, 
         let tempArray = [];
@@ -27,13 +25,11 @@ function getDomElement() {
         const location = node.querySelector('[data-at="job-item-location"]');
         tempArray.push(location.innerText);
         //push temp array to main array above
-        mainArray.push(tempArray);
-    }
+        mainArray.push(tempArray);  
+        }
+    });
 
-    //nodes.forEach((e) => {
-        
-    //});
-
+    // If no jobs found return empty (NOT FINISHED YET, CHECK LATER)
     console.log(mainArray);
     if (mainArray === undefined || mainArray.length == 0){
         return "empty";
