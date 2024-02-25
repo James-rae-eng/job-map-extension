@@ -6,8 +6,21 @@ import './styles/App.css';
 
 export default function App() {
   const [pageInfo, setPageInfo] = useState(null);
+  const [searchAddress, setsearchAddress] = useState(null);
 
   function getInfo() {
+  // Get the address searched for from the page URL
+    function getAddress() {
+      chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+        let url = tabs[0].url;
+        // have to send out `url` here inside the callback because it's asynchronous
+        //setsearchAddress(url);
+        let u = JSON.stringify(url);
+        let urlAddress = u.substring(u.indexOf("-")+1, u.lastIndexOf("?"));
+        setsearchAddress(urlAddress);
+      });      
+    }
+    
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tab = tabs[0];
       if (tab && tab.id !== undefined) {
@@ -17,6 +30,8 @@ export default function App() {
         }, function(response) {
           //This is the response from the content script:
           setPageInfo(response);
+          // trigger address function
+          getAddress();
         });
       }
     });
@@ -26,6 +41,7 @@ export default function App() {
     <section>
       <h1>Hello</h1>
       <button onClick={getInfo}>Get dom elements</button>
+      <h1>{searchAddress}</h1>
       <h2>{pageInfo}</h2>
     </section>
   )
