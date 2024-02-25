@@ -13,11 +13,13 @@ export default function App() {
     function getAddress() {
       chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
         let url = tabs[0].url;
-        // have to send out `url` here inside the callback because it's asynchronous
-        //setsearchAddress(url);
+        // have to deal with `url` here inside the callback because the query is asynchronous
         let u = JSON.stringify(url);
+        //Get address from url
         let urlAddress = u.substring(u.indexOf("-")+1, u.lastIndexOf("?"));
-        setsearchAddress(urlAddress);
+        //Strip any punctuation from address if muliple words
+        let result = urlAddress.replace(/\W|_/g, ' ');
+        setsearchAddress(result);
       });      
     }
     
